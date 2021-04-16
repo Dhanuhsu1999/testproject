@@ -14,6 +14,9 @@ unity/unity.c\
 INC = -Iinc\
 -Iunity 
 
+# Document files
+DOCUMENTATION_OUTPUT = documentation/html
+
 #To check if the OS is Windows or Linux and set the executable file extension and delete command accordingly
 ifdef OS
    RM = del /q
@@ -23,7 +26,7 @@ else
    ifeq ($(shell uname), Linux)
       RM = rm -rf
       FixPath = $1
-	  EXEC = out
+	  EXEC = out 
    endif
 endif
 
@@ -49,17 +52,14 @@ memcheck:
 coverage:${PROJECT_NAME}
 	gcc -fprofile-arcs -ftest-coverage $(SRC) $(TEST_SRC) $(INC) -o $(call FixPath,$(BUILD_DIR)/$(TEST_PROJ_NAME).$(EXEC)) -lm
 	$(call FixPath,$(BUILD_DIR)/$(TEST_PROJ_NAME).$(EXEC))
-	gcov -a recordmanagement_test.c
+	gcov -a recordmanagement_test.c 
 	$(RM) *.gcda
 	$(RM) *.gcno
 	$(RM) *.c.gcov
 
 doc:
-	make -C doc
-$(BUILD_DIR):
-	mkdir $(BUILD_DIR) 
+	make -C ./documentation
 
 clean:
 	$(RM) $(call FixPath,$(BUILD_DIR)/*)
-	make clean -C doc
-	rmdir $(BUILD_DIR) doc/html
+	rm -rf $(DOCUMENTATION_OUTPUT)
