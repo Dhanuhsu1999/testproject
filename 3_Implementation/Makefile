@@ -9,7 +9,8 @@ src/modifyrecord.c
 COV_SRC = recordmanagement_test.c
 
 TEST_SRC = test/recordmanagement_test.c\
-unity/unity.c\ 
+unity/unity.c
+
 INC_H = inc
 INC_T = unity
 
@@ -37,9 +38,10 @@ test:
 
 coverage:
 	cp test/recordmanagement_test.c .
-	gcc -fprofile-arcs -ftest-coverage -I $(INC_H) -I $(INC_T) unity/unity.c test.c $(SRC) -o $(call FixPath, $(TEST_PROJ_NAME).$(EXEC))
+	gcc -fprofile-arcs -ftest-coverage -I $(INC_H) -I $(INC_T) unity/unity.c recordmanagement_test.c $(SRC) -o $(call FixPath, $(TEST_PROJ_NAME).$(EXEC))
 	$(call FixPath, ./$(TEST_PROJ_NAME).$(EXEC))
 	gcov -a $(COV_SRC)
+	$(RM) *.$(EXEC)
 	$(RM) *.gcda
 	$(RM) *.gcno
 	$(RM) *.c.gcov
@@ -59,3 +61,4 @@ clean:
 	$(RM) *.gcda
 	$(RM) *.gcno
 	$(RM) *.c.gcov
+	$(RM) *.$(EXEC)
